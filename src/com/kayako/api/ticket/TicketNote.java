@@ -785,14 +785,23 @@ public class TicketNote extends KEntity {
             throw new KayakoException();
         }
         this.setType(TicketNoteTypeEnum.getEnum(element.getAttribute("type"))).setId(Helper.parseInt(element.getAttribute("id")));
-        if (this.getType().equals(TicketNoteTypeEnum.TICKET)) {
-            this.setTicketId(Helper.parseInt(element.getAttribute("ticketid")));
-        } else if (this.getType().equals(TicketNoteTypeEnum.USER)) {
-            this.setUserId(Helper.parseInt(element.getAttribute("userid")));
-        } else if (this.getType().equals(TicketNoteTypeEnum.USER_ORGANIZATION)) {
-            this.setUserOrganizationId(Helper.parseInt(element.getAttribute("userorganizationid")));
+        if (this.getType() == null) {
+		throw new KayakoException("Ticket has invalid/missing type");
+	}
+	switch (this.getType()) {
+            case TICKET:
+                this.setTicketId(Helper.parseInt(element.getAttribute("ticketid")));
+                break;
+            case USER:
+                this.setUserId(Helper.parseInt(element.getAttribute("userid")));
+                break;
+            case USER_ORGANIZATION:
+                this.setUserOrganizationId(Helper.parseInt(element.getAttribute("userorganizationid")));
+                break;
+            default:
+                break;
         }
-        this.setNoteColor(ColorEnum.getEnum(element.getAttribute("notecolor")));
+	this.setNoteColor(ColorEnum.getEnum(element.getAttribute("notecolor")));
         this.setCreatorStaffId(Helper.parseInt(element.getAttribute("creatorstaffid")));
         this.setForStaffId(Helper.parseInt(element.getAttribute("forstaffid")));
         this.setCreatorStaffName(element.getAttribute("creatorstaffname"));
