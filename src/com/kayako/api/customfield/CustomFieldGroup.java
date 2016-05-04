@@ -47,10 +47,6 @@ public abstract class CustomFieldGroup extends KEntity {
      * The Object xml name.
      */
     static protected String objectXmlName = "group";
-    /**
-     * The Read only.
-     */
-    protected Boolean readOnly = true;
 
     /**
      * Custom field group identifier.
@@ -73,7 +69,7 @@ public abstract class CustomFieldGroup extends KEntity {
      *
      * @var CustomField[]
      */
-    protected ArrayList<CustomField> fields = new ArrayList<CustomField>();
+    protected ArrayList<CustomField> fields = new ArrayList<>();
 
     /**
      * Type of custom field group.
@@ -100,6 +96,7 @@ public abstract class CustomFieldGroup extends KEntity {
         return this;
     }
 
+    @Override
     public int getId() {
         return id;
     }
@@ -133,10 +130,12 @@ public abstract class CustomFieldGroup extends KEntity {
         CustomFieldGroup.objectXmlName = objectXmlName;
     }
 
+    @Override
     public Boolean getReadOnly() {
         return readOnly;
     }
 
+    @Override
     public CustomFieldGroup setReadOnly(Boolean readOnly) {
         this.readOnly = readOnly;
         return this;
@@ -246,15 +245,17 @@ public abstract class CustomFieldGroup extends KEntity {
      * @param newCustomFieldGroup the new custom field group
      * @return the hash map
      */
+    @Override
     public HashMap<String, String> buildHashMap(Boolean newCustomFieldGroup) {
-        HashMap<String, String> customFieldGroupHashMap = new HashMap<String, String>();
-        for (CustomField customField : this.getFields()) {
+        HashMap<String, String> customFieldGroupHashMap = new HashMap<>();
+        this.getFields().stream().forEach((customField) -> {
             customFieldGroupHashMap.putAll(customField.buildHashMap());
-        }
+        });
 
         return customFieldGroupHashMap;
     }
 
+    @Override
     public HashMap<String, HashMap<String, String>> buildFilesHashMap() {
         return this.buildFilesHashMap(false);
     }
@@ -266,10 +267,10 @@ public abstract class CustomFieldGroup extends KEntity {
      * @return the hash map
      */
     public HashMap<String, HashMap<String, String>> buildFilesHashMap(Boolean newCustomFieldFile) {
-        HashMap<String, HashMap<String, String>> filesHashMap = new HashMap<String, HashMap<String, String>>();
-        for (CustomField customField : this.getFields()) {
+        HashMap<String, HashMap<String, String>> filesHashMap = new HashMap<>();
+        this.getFields().stream().forEach((customField) -> {
             filesHashMap.putAll(customField.buildFilesHashMap());
-        }
+        });
         return filesHashMap;
     }
 

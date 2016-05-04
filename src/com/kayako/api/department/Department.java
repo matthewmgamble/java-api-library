@@ -53,7 +53,6 @@ public class Department extends KEntity {
     /**
      * The Read only.
      */
-    protected Boolean readOnly = false;
 
     /**
      * Instantiates a new Department.
@@ -150,14 +149,14 @@ public class Department extends KEntity {
      * @apiField name = usergroupid
      * @var int[]
      */
-    protected ArrayList<Integer> userGroupIds = new ArrayList<Integer>();
+    protected ArrayList<Integer> userGroupIds = new ArrayList<>();
 
     /**
      * User groups which can change department to this status.
      *
      * @var UserGroup[]
      */
-    private HashMap<Integer, UserGroup> userGroups = new HashMap<Integer, UserGroup>();
+    private HashMap<Integer, UserGroup> userGroups = new HashMap<>();
 
     protected AccessTypeEnum type;
 
@@ -338,6 +337,7 @@ public class Department extends KEntity {
         return this;
     }
 
+    @Override
     public int getId() {
 
         return id;
@@ -354,11 +354,13 @@ public class Department extends KEntity {
         return this;
     }
 
+    @Override
     public Boolean getReadOnly() {
 
         return readOnly;
     }
 
+    @Override
     public Department setReadOnly(Boolean readOnly) {
         this.readOnly = readOnly;
         return this;
@@ -557,6 +559,7 @@ public class Department extends KEntity {
         return departments;
     }
 
+    @Override
     public String toString() {
         return "Department : " + this.getTitle();
     }
@@ -660,42 +663,52 @@ public class Department extends KEntity {
             if (!component.isComposite() && component.getContent() == null) {
                 break;
             }
-            if (elementName.equals("id")) {
-                this.setId(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("title")) {
-                this.setTitle(component.getContent());
-            } else if (elementName.equals("displayorder")) {
-                this.setDisplayOrder(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("departmentid")) {
-                this.setParentDepartmentId(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("displayicon")) {
-                this.setDisplayIcon(component.getContent());
-            } else if (elementName.equals("type")) {
-                this.setType(AccessTypeEnum.getEnum(component.getContent()));
-            } else if (elementName.equals("app")) {
-                this.setApp(AppEnum.getEnum(component.getContent()));
-            } else if (elementName.equals("uservisibilitycustom")) {
-                if (Helper.parseInt(component.getContent()) == 1) {
-                    this.setUserVisibilityCustom(true);
-                } else {
-                    this.setUserVisibilityCustom(false);
-                }
-            } else if (elementName.equals("usergroups")) {
-                ArrayList<RawArrayElement> userGroupElements = component.getComponents();
-                for (RawArrayElement innerComponent : userGroupElements) {
-                    if (innerComponent.getElementName().equals("id")) {
-                        this.userGroupIds.add(new Integer(innerComponent.getContent()));
-                    }
-
-                }
-
+            switch (elementName) {
+                case "id":
+                    this.setId(Helper.parseInt(component.getContent()));
+                    break;
+                case "title":
+                    this.setTitle(component.getContent());
+                    break;
+                case "displayorder":
+                    this.setDisplayOrder(Helper.parseInt(component.getContent()));
+                    break;
+                case "departmentid":
+                    this.setParentDepartmentId(Helper.parseInt(component.getContent()));
+                    break;
+                case "displayicon":
+                    this.setDisplayIcon(component.getContent());
+                    break;
+                case "type":
+                    this.setType(AccessTypeEnum.getEnum(component.getContent()));
+                    break;
+                case "app":
+                    this.setApp(AppEnum.getEnum(component.getContent()));
+                    break;
+                case "uservisibilitycustom":
+                    if (Helper.parseInt(component.getContent()) == 1) {
+                        this.setUserVisibilityCustom(true);
+                    } else {
+                        this.setUserVisibilityCustom(false);
+                    }   break;
+                case "usergroups":
+                    ArrayList<RawArrayElement> userGroupElements = component.getComponents();
+                    for (RawArrayElement innerComponent : userGroupElements) {
+                        if (innerComponent.getElementName().equals("id")) {
+                            this.userGroupIds.add(new Integer(innerComponent.getContent()));
+                        }
+                        
+                    }   break;
+                default:
+                    break;
             }
         }
         return this;
     }
 
+    @Override
     public HashMap<String, String> buildHashMap(Boolean newDepartment) {
-        HashMap<String, String> departmentHashMap = new HashMap<String, String>();
+        HashMap<String, String> departmentHashMap = new HashMap<>();
         departmentHashMap.put("title", this.getTitle());
         departmentHashMap.put("type", this.getType().getString());
         departmentHashMap.put("app", this.getApp().getString());
@@ -703,8 +716,8 @@ public class Department extends KEntity {
         departmentHashMap.put("parentdepartmentid", Integer.toString(this.getParentDepartmentId()));
         departmentHashMap.put("uservisibilitycustom", this.isUserVisibilityCustom() ? "1" : "0");
         if (this.isUserVisibilityCustom()) {
-            for (Integer id : this.getUserGroupIds()) {
-                departmentHashMap.put("usergroupid[]", id.toString());
+            for (Integer groupId : this.getUserGroupIds()) {
+                departmentHashMap.put("usergroupid[]", groupId.toString());
             }
         }
         return departmentHashMap;

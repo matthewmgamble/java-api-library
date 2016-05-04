@@ -51,7 +51,7 @@ public class TicketStatus extends KEntity {
     /**
      * The Read only.
      */
-    protected Boolean readOnly = true;
+
 
     /**
      * Ticket Status identifier.
@@ -118,7 +118,7 @@ public class TicketStatus extends KEntity {
      * @apiField name = staffgroupid
      * @var int[]
      */
-    protected ArrayList<Integer> staffGroupIds = new ArrayList<Integer>();
+    protected ArrayList<Integer> staffGroupIds = new ArrayList<>();
     /**
      * Linked department.
      *
@@ -340,11 +340,13 @@ public class TicketStatus extends KEntity {
         this.id = id;
     }
 
+    @Override
     public Boolean getReadOnly() {
 
         return readOnly;
     }
 
+    @Override
     public TicketStatus setReadOnly(Boolean readOnly) {
         this.readOnly = readOnly;
         return this;
@@ -518,6 +520,7 @@ public class TicketStatus extends KEntity {
      * Sets type.
      *
      * @param type the type
+     * @return 
      */
     public TicketStatus setType(AccessTypeEnum type) {
         this.type = type;
@@ -669,67 +672,81 @@ public class TicketStatus extends KEntity {
             if (!component.isComposite() && component.getContent() == null) {
                 break;
             }
-            if (elementName.equals("id")) {
-                this.setId(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("title")) {
-                this.setTitle(component.getContent());
-            } else if (elementName.equals("displayorder")) {
-                this.setDisplayOrder(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("departmentid")) {
-                this.setDepartmentId(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("displayicon")) {
-                this.setDisplayIcon(component.getContent());
-            } else if (elementName.equals("type")) {
-                this.setType(AccessTypeEnum.getEnum(component.getContent()));
-            } else if (elementName.equals("statuscolor")) {
-                this.setColor(component.getContent());
-            } else if (elementName.equals("statusbgcolor")) {
-                this.setBackgroundColor(component.getContent());
-            } else if (elementName.equals("Status")) {
-                this.setStatus(component.getContent());
-            } else if (elementName.equals("resetduetime")) {
-                if (Helper.parseInt(component.getContent()) == 1) {
-                    this.setResetDueTime(true);
-                } else {
-                    this.setResetDueTime(false);
-                }
-            } else if (elementName.equals("displayinmainlist")) {
-                if (Helper.parseInt(component.getContent()) == 1) {
-                    this.setDisplayInMainList(true);
-                } else {
-                    this.setDisplayInMainList(false);
-                }
-            } else if (elementName.equals("staffvisibilitycustom")) {
-                if (Helper.parseInt(component.getContent()) == 1) {
-                    this.setStaffVisibilityCustom(true);
-                } else {
-                    this.setStaffVisibilityCustom(false);
-                }
-            } else if (elementName.equals("staffgroupid")) {
-                this.staffGroupIds.add(new Integer(component.getContent()));
-            } else if (elementName.equals("markasresolved")) {
-                if (Helper.parseInt(component.getContent()) == 1) {
-                    this.setMarkAsResolved(true);
-                } else {
-                    this.setMarkAsResolved(false);
-                }
-            } else if (elementName.equals("displaycount")) {
-                if (Helper.parseInt(component.getContent()) == 1) {
-                    this.setDisplayCount(true);
-                } else {
-                    this.setDisplayCount(false);
-                }
-            } else if (elementName.equals("triggersurvey")) {
-                if (Helper.parseInt(component.getContent()) == 1) {
-                    this.setTriggerSurvey(true);
-                } else {
-                    this.setTriggerSurvey(false);
-                }
+            switch (elementName) {
+                case "id":
+                    this.setId(Helper.parseInt(component.getContent()));
+                    break;
+                case "title":
+                    this.setTitle(component.getContent());
+                    break;
+                case "displayorder":
+                    this.setDisplayOrder(Helper.parseInt(component.getContent()));
+                    break;
+                case "departmentid":
+                    this.setDepartmentId(Helper.parseInt(component.getContent()));
+                    break;
+                case "displayicon":
+                    this.setDisplayIcon(component.getContent());
+                    break;
+                case "type":
+                    this.setType(AccessTypeEnum.getEnum(component.getContent()));
+                    break;
+                case "statuscolor":
+                    this.setColor(component.getContent());
+                    break;
+                case "statusbgcolor":
+                    this.setBackgroundColor(component.getContent());
+                    break;
+                case "Status":
+                    this.setStatus(component.getContent());
+                    break;
+                case "resetduetime":
+                    if (Helper.parseInt(component.getContent()) == 1) {
+                        this.setResetDueTime(true);
+                    } else {
+                        this.setResetDueTime(false);
+                    }   break;
+                case "displayinmainlist":
+                    if (Helper.parseInt(component.getContent()) == 1) {
+                        this.setDisplayInMainList(true);
+                    } else {
+                        this.setDisplayInMainList(false);
+                    }   break;
+                case "staffvisibilitycustom":
+                    if (Helper.parseInt(component.getContent()) == 1) {
+                        this.setStaffVisibilityCustom(true);
+                    } else {
+                        this.setStaffVisibilityCustom(false);
+                    }   break;
+                case "staffgroupid":
+                    this.staffGroupIds.add(new Integer(component.getContent()));
+                    break;
+                case "markasresolved":
+                    if (Helper.parseInt(component.getContent()) == 1) {
+                        this.setMarkAsResolved(true);
+                    } else {
+                        this.setMarkAsResolved(false);
+                    }   break;
+                case "displaycount":
+                    if (Helper.parseInt(component.getContent()) == 1) {
+                        this.setDisplayCount(true);
+                    } else {
+                        this.setDisplayCount(false);
+                    }   break;
+                case "triggersurvey":
+                    if (Helper.parseInt(component.getContent()) == 1) {
+                        this.setTriggerSurvey(true);
+                    } else {
+                        this.setTriggerSurvey(false);
+                    }   break;
+                default:
+                    break;
             }
         }
         return this;
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }

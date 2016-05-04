@@ -51,7 +51,6 @@ public class TicketPriority extends KEntity {
     /**
      * The Read only.
      */
-    protected Boolean readOnly = true;
 
     /**
      * Ticket priority identifier.
@@ -108,7 +107,7 @@ public class TicketPriority extends KEntity {
      * @apiField name =usergroupid
      * @var int[]
      */
-    protected ArrayList<Integer> userGroupIds = new ArrayList<Integer>();
+    protected ArrayList<Integer> userGroupIds = new ArrayList<>();
 
     /**
      * Linked department.
@@ -219,6 +218,7 @@ public class TicketPriority extends KEntity {
         return this;
     }
 
+    @Override
     public int getId() {
 
         return id;
@@ -460,28 +460,39 @@ public class TicketPriority extends KEntity {
             if (!component.isComposite() && component.getContent() == null) {
                 break;
             }
-            if (elementName.equals("id")) {
-                this.setId(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("title")) {
-                this.setTitle(component.getContent());
-            } else if (elementName.equals("displayorder")) {
-                this.setDisplayOrder(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("displayicon")) {
-                this.setDisplayIcon(component.getContent());
-            } else if (elementName.equals("type")) {
-                this.setType(AccessTypeEnum.getEnum(component.getContent()));
-            } else if (elementName.equals("uservisibilitycustom")) {
-                if (Helper.parseInt(component.getContent()) == 1) {
-                    this.setUserVisibilityCustom(true);
-                } else {
-                    this.setUserVisibilityCustom(false);
-                }
-            } else if (elementName.equals("usergroupid")) {
-                this.userGroupIds.add(new Integer(component.getContent()));
-            } else if (elementName.equals("frcolorcode")) {
-                this.setColor(component.getContent());
-            } else if (elementName.equals("bgcolorcode")) {
-                this.setBackgroundColor(component.getContent());
+            switch (elementName) {
+                case "id":
+                    this.setId(Helper.parseInt(component.getContent()));
+                    break;
+                case "title":
+                    this.setTitle(component.getContent());
+                    break;
+                case "displayorder":
+                    this.setDisplayOrder(Helper.parseInt(component.getContent()));
+                    break;
+                case "displayicon":
+                    this.setDisplayIcon(component.getContent());
+                    break;
+                case "type":
+                    this.setType(AccessTypeEnum.getEnum(component.getContent()));
+                    break;
+                case "uservisibilitycustom":
+                    if (Helper.parseInt(component.getContent()) == 1) {
+                        this.setUserVisibilityCustom(true);
+                    } else {
+                        this.setUserVisibilityCustom(false);
+                    }   break;
+                case "usergroupid":
+                    this.userGroupIds.add(new Integer(component.getContent()));
+                    break;
+                case "frcolorcode":
+                    this.setColor(component.getContent());
+                    break;
+                case "bgcolorcode":
+                    this.setBackgroundColor(component.getContent());
+                    break;
+                default:
+                    break;
             }
 
         }

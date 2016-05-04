@@ -48,11 +48,7 @@ public class CustomFieldDefinition extends KEntity {
      */
     static protected String objectXmlName = "customfield";
 
-    /**
-     * The Read only.
-     */
-    protected Boolean readOnly = true;
-
+    
     /**
      * Instantiates a new Custom field definition.
      *
@@ -173,14 +169,14 @@ public class CustomFieldDefinition extends KEntity {
      *
      * @var CustomFieldOption[]
      */
-    private ArrayList<CustomFieldOption> options = new ArrayList<CustomFieldOption>();
+    private ArrayList<CustomFieldOption> options = new ArrayList<>();
 
     /**
      * Cache for all field definitions.
      *
      * @var CustomFieldDefinition[]
      */
-    static private ArrayList<CustomFieldDefinition> definitions = new ArrayList<CustomFieldDefinition>();
+    static private ArrayList<CustomFieldDefinition> definitions = new ArrayList<>();
 
     static private RawArrayElement rawDefinitions = null;
 
@@ -462,7 +458,7 @@ public class CustomFieldDefinition extends KEntity {
      * @throws KayakoException the kayako exception
      */
     public ArrayList<CustomFieldOption> getOptions(Boolean refresh) throws KayakoException {
-        if (this.options.size() == 0 || refresh) {
+        if (this.options.isEmpty() || refresh) {
             switch (this.getType()) {
                 case CHECKBOX:
                 case LINKED_SELECT:
@@ -475,7 +471,7 @@ public class CustomFieldDefinition extends KEntity {
                     }
                     break;
                 default:
-                    this.setOptions(new ArrayList<CustomFieldOption>());
+                    this.setOptions(new ArrayList<>());
             }
         }
         return this.options;
@@ -489,7 +485,7 @@ public class CustomFieldDefinition extends KEntity {
      * @throws KayakoException the kayako exception
      */
     public ArrayList<CustomFieldOption> getDefaultOptions(Boolean refresh) throws KayakoException {
-        if (this.options.size() == 0 || refresh) {
+        if (this.options.isEmpty() || refresh) {
             switch (this.getType()) {
                 case CHECKBOX:
                 case LINKED_SELECT:
@@ -555,17 +551,19 @@ public class CustomFieldDefinition extends KEntity {
      */
     public CustomFieldOption getOptionByValue(String value) throws KayakoException {
         for (CustomFieldOption customFieldOption : this.getOptions()) {
-            if (customFieldOption.getValue() == value) {
+            if (customFieldOption.getValue().equals(value)) {
                 return customFieldOption;
             }
         }
         return null;
     }
 
+    @Override
     public Boolean getReadOnly() {
         return readOnly;
     }
 
+    @Override
     public CustomFieldDefinition setReadOnly(Boolean readOnly) {
         this.readOnly = readOnly;
         return this;

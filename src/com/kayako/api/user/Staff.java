@@ -48,10 +48,7 @@ public class Staff extends KEntity {
      * The Object xml name.
      */
     static protected String objectXmlName = "staff";
-    /**
-     * The Read only.
-     */
-    protected Boolean readOnly = false;
+
 
     /**
      * Instantiates a new Staff.
@@ -224,11 +221,13 @@ public class Staff extends KEntity {
         return this;
     }
 
+    @Override
     public Boolean getReadOnly() {
 
         return readOnly;
     }
 
+    @Override
     public Staff setReadOnly(Boolean readOnly) {
         this.readOnly = readOnly;
         return this;
@@ -654,34 +653,51 @@ public class Staff extends KEntity {
             if (!component.isComposite() && component.getContent() == null) {
                 break;
             }
-            if (elementName.equals("id")) {
-                this.setId(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("staffgroupid")) {
-                this.setStaffGroupId(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("firstname")) {
-                this.setFirstName(component.getContent());
-            } else if (elementName.equals("lastName")) {
-                this.setLastName(component.getContent());
-            } else if (elementName.equals("fullname")) {
-                this.setFullName(component.getContent());
-            } else if (elementName.equals("username")) {
-                this.setUserName(component.getContent());
-            } else if (elementName.equals("email")) {
-                this.setEmail(component.getContent());
-            } else if (elementName.equals("designation")) {
-                this.setDesignation(component.getContent());
-            } else if (elementName.equals("greeting")) {
-                this.setGreeting(component.getContent());
-            } else if (elementName.equals("mobilenumber")) {
-                this.setMobileNumber(component.getContent());
-            } else if (elementName.equals("isenabled")) {
-                this.setEnabled(Helper.parseInt(component.getContent()) == 1);
-            } else if (elementName.equals("enabledst")) {
-                this.setDST(Helper.parseInt(component.getContent()) == 1);
-            } else if (elementName.equals("signature")) {
-                this.setSignature(component.getContent());
-            } else if (elementName.equals("timezone")) {
-                this.setTimeZone(component.getContent());
+            switch (elementName) {
+                case "id":
+                    this.setId(Helper.parseInt(component.getContent()));
+                    break;
+                case "staffgroupid":
+                    this.setStaffGroupId(Helper.parseInt(component.getContent()));
+                    break;
+                case "firstname":
+                    this.setFirstName(component.getContent());
+                    break;
+                case "lastName":
+                    this.setLastName(component.getContent());
+                    break;
+                case "fullname":
+                    this.setFullName(component.getContent());
+                    break;
+                case "username":
+                    this.setUserName(component.getContent());
+                    break;
+                case "email":
+                    this.setEmail(component.getContent());
+                    break;
+                case "designation":
+                    this.setDesignation(component.getContent());
+                    break;
+                case "greeting":
+                    this.setGreeting(component.getContent());
+                    break;
+                case "mobilenumber":
+                    this.setMobileNumber(component.getContent());
+                    break;
+                case "isenabled":
+                    this.setEnabled(Helper.parseInt(component.getContent()) == 1);
+                    break;
+                case "enabledst":
+                    this.setDST(Helper.parseInt(component.getContent()) == 1);
+                    break;
+                case "signature":
+                    this.setSignature(component.getContent());
+                    break;
+                case "timezone":
+                    this.setTimeZone(component.getContent());
+                    break;
+                default:
+                    break;
             }
         }
         return this;
@@ -690,10 +706,12 @@ public class Staff extends KEntity {
     /**
      * Build hash map.
      *
+     * @param NewStaff
      * @return the hash map
      */
+    @Override
     public HashMap<String, String> buildHashMap(Boolean NewStaff) {
-        HashMap<String, String> staffHashMap = new HashMap<String, String>();
+        HashMap<String, String> staffHashMap = new HashMap<>();
         staffHashMap.put("firstname", this.getFirstName());
         staffHashMap.put("lastname", this.getLastName());
         staffHashMap.put("fullname", this.getFullName());

@@ -45,10 +45,7 @@ public class CustomFieldOption extends KEntity {
      * The Object xml name.
      */
     static protected String objectXmlName = "option";
-    /**
-     * The Read only.
-     */
-    protected Boolean readOnly = true;
+
 
     /**
      * Field option identifier.
@@ -156,6 +153,7 @@ public class CustomFieldOption extends KEntity {
         return this;
     }
 
+    @Override
     public int getId() {
         return id;
     }
@@ -229,10 +227,12 @@ public class CustomFieldOption extends KEntity {
         return this;
     }
 
+    @Override
     public Boolean getReadOnly() {
         return readOnly;
     }
 
+    @Override
     public CustomFieldOption setReadOnly(Boolean readOnly) {
         this.readOnly = readOnly;
         return this;

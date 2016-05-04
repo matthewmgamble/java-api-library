@@ -49,10 +49,7 @@ public class TicketType extends KEntity {
      * The Object xml name.
      */
     static protected String objectXmlName = "tickettype";
-    /**
-     * The Read only.
-     */
-    protected Boolean readOnly = true;
+
 
     /**
      * Ticket type identifier.
@@ -112,7 +109,7 @@ public class TicketType extends KEntity {
      * @apiField name =usergroupid
      * @var int[]
      */
-    protected ArrayList<Integer> userGroupIds = new ArrayList<Integer>();
+    protected ArrayList<Integer> userGroupIds = new ArrayList<>();
 
     /**
      * Linked department.
@@ -121,7 +118,7 @@ public class TicketType extends KEntity {
      */
     private Department department = null;
 
-    private HashMap<Integer, UserGroup> userGroups = new HashMap<Integer, UserGroup>();
+    private HashMap<Integer, UserGroup> userGroups = new HashMap<>();
 
     /**
      * Gets department.
@@ -255,6 +252,7 @@ public class TicketType extends KEntity {
         this.title = title;
     }
 
+    @Override
     public int getId() {
 
         return id;
@@ -269,11 +267,13 @@ public class TicketType extends KEntity {
         this.id = id;
     }
 
+    @Override
     public Boolean getReadOnly() {
 
         return readOnly;
     }
 
+    @Override
     public TicketType setReadOnly(Boolean readOnly) {
         this.readOnly = readOnly;
         return this;
@@ -453,26 +453,36 @@ public class TicketType extends KEntity {
             if (!component.isComposite() && component.getContent() == null) {
                 break;
             }
-            if (elementName.equals("id")) {
-                this.setId(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("title")) {
-                this.setTitle(component.getContent());
-            } else if (elementName.equals("displayorder")) {
-                this.setDisplayOrder(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("departmentid")) {
-                this.setDepartmentId(Helper.parseInt(component.getContent()));
-            } else if (elementName.equals("displayicon")) {
-                this.setDisplayIcon(component.getContent());
-            } else if (elementName.equals("type")) {
-                this.setType(AccessTypeEnum.getEnum(component.getContent()));
-            } else if (elementName.equals("uservisibilitycustom")) {
-                if (Helper.parseInt(component.getContent()) == 1) {
-                    this.setUserVisibilityCustom(true);
-                } else {
-                    this.setUserVisibilityCustom(false);
-                }
-            } else if (elementName.equals("usergroupid")) {
-                this.userGroupIds.add(new Integer(component.getContent()));
+            switch (elementName) {
+                case "id":
+                    this.setId(Helper.parseInt(component.getContent()));
+                    break;
+                case "title":
+                    this.setTitle(component.getContent());
+                    break;
+                case "displayorder":
+                    this.setDisplayOrder(Helper.parseInt(component.getContent()));
+                    break;
+                case "departmentid":
+                    this.setDepartmentId(Helper.parseInt(component.getContent()));
+                    break;
+                case "displayicon":
+                    this.setDisplayIcon(component.getContent());
+                    break;
+                case "type":
+                    this.setType(AccessTypeEnum.getEnum(component.getContent()));
+                    break;
+                case "uservisibilitycustom":
+                    if (Helper.parseInt(component.getContent()) == 1) {
+                        this.setUserVisibilityCustom(true);
+                    } else {
+                        this.setUserVisibilityCustom(false);
+                    }   break;
+                case "usergroupid":
+                    this.userGroupIds.add(new Integer(component.getContent()));
+                    break;
+                default:
+                    break;
             }
 
         }
